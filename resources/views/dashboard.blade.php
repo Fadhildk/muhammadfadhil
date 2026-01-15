@@ -29,12 +29,13 @@
         body { background-color: #1a1a2e; color: white; }
         .fade-enter { animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        /* Hilangkan scrollbar tapi tetap bisa scroll */
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        main { transition: all 0.3s ease-in-out; }
     </style>
 </head>
-<body class="bg-mainBg font-sans text-white h-screen overflow-hidden flex flex-col">
+
+<body class="bg-mainBg font-sans text-white h-screen overflow-hidden flex flex-row">
 
     @include('partials.sidebar')
 
@@ -45,7 +46,6 @@
                 <button onclick="toggleSidebar()" class="text-3xl focus:outline-none hover:text-accentBlue transition p-2 border border-transparent hover:border-gray-600 rounded">
                     ☰
                 </button>
-                
                 <div class="flex items-center gap-3">
                     <img src="{{ asset('image/logo.png') }}" alt="Sleepy Panda Logo" class="w-10 h-10 object-contain">
                     <h2 class="text-2xl font-bold tracking-wide hidden sm:block">Sleepy Panda</h2>
@@ -70,7 +70,6 @@
                         </p>
                     </div>
                 </button>
-            
                 <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-[#232336] border border-gray-700 rounded-xl shadow-2xl overflow-hidden animate-fadeIn">
                     <div class="px-4 py-3 border-b border-gray-700 md:hidden">
                         <p class="text-sm text-white font-bold">{{ Auth::user()->name }}</p>
@@ -119,14 +118,34 @@
         </div>
 
         <div id="content-report" class="tab-content hidden fade-enter">
-            <div class="bg-cardBg p-20 rounded-2xl text-center border border-sidebarBorder">
-                <span class="text-5xl">📊</span><h2 class="text-2xl mt-4">Report Page</h2>
-                <p class="text-gray-400">Halaman laporan akan ditampilkan di sini.</p>
-            </div>
+            @include('partials.report')
         </div>
 
         <div id="content-database" class="tab-content hidden fade-enter space-y-6">
             @include('partials.database')
+        </div>
+
+        <div id="content-reset" class="tab-content hidden fade-enter">
+            <div class="bg-cardBg p-8 rounded-2xl border border-sidebarBorder max-w-2xl mx-auto">
+                <h2 class="text-2xl font-bold mb-6">Reset Password User</h2>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm text-textMuted mb-1">Cari User (Email/Username)</label>
+                        <div class="flex gap-2">
+                            <input type="text" placeholder="Contoh: user@gmail.com" class="w-full bg-[#1a1a2e] border border-gray-600 rounded-xl px-4 py-3 focus:outline-none focus:border-accentBlue">
+                            <button class="bg-accentBlue px-6 py-3 rounded-xl hover:bg-blue-600 transition">Cari</button>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-white/5 rounded-xl border border-gray-700 hidden">
+                        <p class="text-sm text-green-400">User Ditemukan: Fadhil K</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-textMuted mb-1">Password Baru</label>
+                        <input type="password" class="w-full bg-[#1a1a2e] border border-gray-600 rounded-xl px-4 py-3 focus:outline-none focus:border-accentBlue">
+                    </div>
+                    <button class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-xl transition">Reset Password Sekarang</button>
+                </form>
+            </div>
         </div>
 
     </main>
@@ -136,59 +155,85 @@
         // 1. PROFILE MENU
         function toggleProfileMenu() {
             const menu = document.getElementById('profile-menu');
-            if (menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
-            } else {
-                menu.classList.add('hidden');
-            }
+            if (menu.classList.contains('hidden')) menu.classList.remove('hidden');
+            else menu.classList.add('hidden');
         }
         window.addEventListener('click', function(e) {
             const menu = document.getElementById('profile-menu');
             const button = document.querySelector('button[onclick="toggleProfileMenu()"]');
-            if (menu && !menu.contains(e.target) && !button.contains(e.target)) {
-                menu.classList.add('hidden');
-            }
+            if (menu && !menu.contains(e.target) && !button.contains(e.target)) menu.classList.add('hidden');
         });
 
-        // 2. SIDEBAR
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar-menu');
-            const overlay = document.getElementById('sidebar-overlay');
-            if (sidebar.classList.contains('-translate-x-full')) {
-                sidebar.classList.remove('-translate-x-full'); 
-                overlay.classList.remove('hidden');
-            } else {
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.add('hidden');
+        // 2. TOGGLE SUBMENU (LOGIKA BARU)
+        function toggleSubmenu(id) {
+            const submenu = document.getElementById(id);
+            if(submenu) {
+                if(submenu.classList.contains('hidden')) submenu.classList.remove('hidden');
+                else submenu.classList.add('hidden');
             }
         }
 
-        // 3. TABS
+        // 3. LOGIKA SIDEBAR RESPONSIVE
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar-menu');
+            const overlay = document.getElementById('sidebar-overlay');
+            const isMobile = window.innerWidth < 768;
+
+            if (isMobile) {
+                if (sidebar.classList.contains('-translate-x-full')) {
+                    sidebar.classList.remove('-translate-x-full'); 
+                    overlay.classList.remove('hidden');
+                } else {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                }
+            } else {
+                if (sidebar.classList.contains('md:w-64')) {
+                    sidebar.classList.remove('md:w-64');
+                    sidebar.classList.add('w-0');
+                    sidebar.classList.add('p-0'); 
+                    sidebar.classList.add('border-none');
+                } else {
+                    sidebar.classList.remove('w-0');
+                    sidebar.classList.remove('p-0');
+                    sidebar.classList.remove('border-none');
+                    sidebar.classList.add('md:w-64');
+                }
+            }
+        }
+
+        // 4. TABS
         function switchTab(tabName) {
+            // Sembunyikan semua konten
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             const target = document.getElementById('content-' + tabName);
             if(target) target.classList.remove('hidden');
 
-            const mainButtons = ['btn-dashboard', 'btn-jurnal', 'btn-report', 'btn-database'];
+            // Reset semua tombol sidebar (Text gray)
+            const mainButtons = ['btn-dashboard', 'btn-jurnal', 'btn-report'];
             mainButtons.forEach(id => {
                 const btn = document.getElementById(id);
-                if(btn) btn.className = 'nav-btn block w-full border border-gray-600 text-gray-400 rounded-2xl py-3 text-center text-sm font-medium hover:text-white hover:border-gray-500 transition duration-200';
+                if(btn) btn.className = 'nav-btn block w-full border border-gray-600 text-gray-400 rounded-2xl py-3 text-center text-sm font-medium hover:text-white hover:border-gray-500 transition duration-200 whitespace-nowrap';
+            });
+            // Reset tombol Submenu
+            ['btn-database', 'btn-reset'].forEach(id => {
+                const btn = document.getElementById(id);
+                if(btn) btn.className = 'nav-btn block w-full text-gray-400 hover:text-white text-sm py-2 text-left px-4 rounded-xl hover:bg-white/5 transition duration-200';
             });
 
+            // Highlight tombol aktif
             const activeBtn = document.getElementById('btn-' + tabName);
+            // Cek apakah tombol yang diklik adalah Main Menu atau Sub Menu
             if(activeBtn) {
-                activeBtn.className = 'nav-btn block w-full border border-gray-500 bg-white/10 text-white rounded-2xl py-3 text-center text-sm font-medium transition duration-200';
-            }
-        }
-
-        // 4. SUBMENU
-        function toggleSubmenu(id) {
-            const submenu = document.getElementById(id);
-            if (submenu) {
-                if (submenu.classList.contains('hidden')) {
-                    submenu.classList.remove('hidden');
+                if(tabName === 'database' || tabName === 'reset') {
+                    // Style untuk Submenu Aktif (Text White + Background tipis)
+                    activeBtn.className = 'nav-btn block w-full text-white bg-white/10 text-sm py-2 text-left px-4 rounded-xl transition duration-200';
+                    // Pastikan Parent (User Data) tetap terlihat aktif/terbuka
+                    const submenu = document.getElementById('submenu-database');
+                    if(submenu && submenu.classList.contains('hidden')) submenu.classList.remove('hidden');
                 } else {
-                    submenu.classList.add('hidden');
+                    // Style untuk Main Menu Aktif
+                    activeBtn.className = 'nav-btn block w-full border border-gray-500 bg-white/10 text-white rounded-2xl py-3 text-center text-sm font-medium transition duration-200 whitespace-nowrap';
                 }
             }
         }

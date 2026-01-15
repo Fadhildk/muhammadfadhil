@@ -85,7 +85,7 @@
             
             <div class="bg-[#2e2e42] p-4 rounded-xl border border-gray-700 shadow-md">
                 <div class="flex justify-between text-[10px] text-gray-400 mb-2">
-                    <span>10 Agustus 2023</span>
+                    <span>13 Agustus 2023</span>
                     <span>30 menit yang lalu</span>
                 </div>
                 <div class="flex items-start gap-3">
