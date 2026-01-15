@@ -10,156 +10,130 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 20px;
 }
 
+/* --- KARTU LOGIN (Sangat Panjang ke Bawah) --- */
 .login-card {
     width: 100%;
-    max-width: 480px;
-    background: rgba(44, 47, 82, 0.85);
+    max-width: 450px;
+    
+    background: rgba(44, 47, 82, 0.95);
     backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 50px 40px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border-radius: 30px; /* Sudut lebih bulat lagi */
+    
+    /* UPDATE: Padding atas-bawah jadi 120px (Sangat Tinggi) */
+    padding: 120px 40px;
+    
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
     color: #fff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
+/* --- AREA LOGO --- */
 .logo {
-    text-align: center;
-    margin-bottom: 40px;
+    /* UPDATE: Jarak ke tombol diperjauh jadi 60px */
+    margin-bottom: 60px; 
 }
 
 .logo img {
-    width: 70px;
-    height: 70px;
-    margin-bottom: 15px;
+    /* UPDATE: Logo diperbesar sedikit biar seimbang sama tingginya kartu */
+    width: 110px; 
+    height: auto;
+    margin-bottom: 25px;
     object-fit: contain;
 }
 
 .logo h4 {
-    margin: 0 0 12px 0;
-    font-weight: 600;
-    font-size: 24px;
+    margin: 0 0 15px 0;
+    font-weight: 700;
+    font-size: 30px;
     color: #ffffff;
+    letter-spacing: 0.5px;
 }
 
 .logo .tagline {
     margin: 0 auto;
-    font-size: 13px;
+    font-size: 15px;
     color: rgba(255, 255, 255, 0.6);
-    line-height: 1.5;
-    max-width: 320px;
+    line-height: 1.8; /* Spasi baris diperlebar */
     font-weight: 400;
+    max-width: 300px;
 }
 
-.form-control {
-    background: rgba(43, 46, 74, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
-    padding: 14px 18px;
-    border-radius: 8px;
-    font-size: 15px;
-    transition: all 0.3s ease;
+/* --- ALERT ERROR --- */
+.alert {
+    background: rgba(231, 76, 60, 0.2);
+    border: 1px solid rgba(231, 76, 60, 0.5);
+    color: #ffcccc;
+    border-radius: 12px;
+    font-size: 14px;
+    padding: 12px;
+    margin-bottom: 30px;
 }
 
-.form-control::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 15px;
-}
-
-.form-control:focus {
-    background: rgba(43, 46, 74, 1);
-    color: #fff;
-    box-shadow: 0 0 0 3px rgba(61, 220, 151, 0.2);
-    border: 1px solid #3ddc97;
-    outline: none;
-}
-
-.mb-3 {
-    margin-bottom: 18px !important;
+/* --- TOMBOL --- */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    /* UPDATE: Jarak antar tombol diperlebar jadi 25px */
+    gap: 25px; 
+    width: 100%;
 }
 
 .btn-login {
-    background: linear-gradient(135deg, #3ddc97 0%, #2ec77f 100%);
+    background: #3ddc97;
     border: none;
     color: #1a1b2e;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 16px;
-    padding: 14px;
-    border-radius: 8px;
+    padding: 18px;
+    border-radius: 14px; /* Sudut tombol lebih bulat */
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(61, 220, 151, 0.3);
+    box-shadow: 0 4px 20px rgba(61, 220, 151, 0.25);
     text-decoration: none;
     display: block;
-    text-align: center;
+    width: 100%;
 }
 
 .btn-login:hover {
-    background: linear-gradient(135deg, #2ec77f 0%, #3ddc97 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(61, 220, 151, 0.4);
-    color: #1a1b2e;
-}
-
-.btn-login:active {
-    transform: translateY(0);
+    background: #2ec77f;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(61, 220, 151, 0.4);
 }
 
 .btn-daftar {
     background: #ffffff;
     border: none;
     color: #1a1b2e;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 16px;
-    padding: 14px;
-    border-radius: 8px;
+    padding: 18px;
+    border-radius: 14px;
     transition: all 0.3s ease;
     text-decoration: none;
     display: block;
-    text-align: center;
+    width: 100%;
 }
 
 .btn-daftar:hover {
     background: #f0f0f0;
-    transform: translateY(-2px);
-    color: #1a1b2e;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15);
 }
 
-.btn-daftar:active {
-    transform: translateY(0);
-}
-
-.button-group {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.forgot {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.forgot:hover {
-    color: #3ddc97;
-    text-decoration: none;
-}
-
-.alert {
-    border-radius: 8px;
-    font-size: 14px;
-}
-
-/* Responsive */
+/* --- RESPONSIVE --- */
 @media (max-width: 576px) {
     .login-card {
-        padding: 40px 30px;
+        padding: 80px 30px; /* Di HP jangan terlalu ekstrem biar muat */
+        max-width: 90%;
     }
     
     .logo h4 {
-        font-size: 22px;
+        font-size: 26px;
     }
 }
